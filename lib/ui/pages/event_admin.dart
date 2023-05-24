@@ -72,7 +72,9 @@ class _EventAdminState extends State<EventAdmin> {
               ),
               CustomFilledButton(
                 title: '+ Buat Event',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/event-category');
+                },
                 width: 200,
                 color: secondaryColor,
               ),
@@ -144,6 +146,18 @@ class _EventAdminState extends State<EventAdmin> {
               ),
             ),
             onTap: () {},
+          ),
+          ListTile(
+            title: Text(
+              'Back To Eventify',
+              style: whiteTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: semiBold,
+              ),
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, '/navbar');
+            },
           )
         ],
       ),

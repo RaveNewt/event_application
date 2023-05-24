@@ -1,8 +1,10 @@
+import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/divider.dart';
 import 'package:event_application/ui/widgets/item_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -32,52 +34,57 @@ class ProfilePage extends StatelessWidget {
       CustomeDivider(),
       SettingList(),
       CustomeDivider(),
-      CreateEvent(),
+      CreateEvent(context),
     ]));
   }
 
   Widget Header() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 24,
-      ),
-      margin: EdgeInsets.only(bottom: 24),
-      child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: 98,
-              height: 98,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/profile_image.png'),
-                ),
-              ),
-            ),
-            Column(
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+      if (state is AuthSuccess) {
+        return Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 24,
+          ),
+          margin: EdgeInsets.only(bottom: 24),
+          child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Ihsanulisra',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 26,
-                    fontWeight: bold,
+                Container(
+                  width: 98,
+                  height: 98,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/profile_image.png'),
+                    ),
                   ),
                 ),
-                SizedBox(
-                  height: 12,
+                Column(
+                  children: [
+                    Text(
+                      state.data.user!.username.toString(),
+                      style: blackTextStyle.copyWith(
+                        fontSize: 26,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    CustomFilledButton(
+                      title: 'Edit Profile',
+                      onPressed: () {},
+                      width: 250,
+                      height: 40,
+                    ),
+                  ],
                 ),
-                CustomFilledButton(
-                  title: 'Edit Profile',
-                  onPressed: () {},
-                  width: 250,
-                  height: 40,
-                ),
-              ],
-            ),
-          ]),
-    );
+              ]),
+        );
+      }
+      return Container();
+    });
   }
 
   Widget SettingList() {
@@ -111,7 +118,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget CreateEvent() {
+  Widget CreateEvent(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       child: Column(children: [
@@ -127,7 +134,9 @@ class ProfilePage extends StatelessWidget {
         ),
         CustomFilledButton(
           title: 'create event',
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/event-admin');
+          },
           width: 100,
           height: 50,
           color: bgsecondary,

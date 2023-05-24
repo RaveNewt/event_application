@@ -21,10 +21,10 @@ class AuthService {
 
       if (res.statusCode == 200 || res.statusCode == 201) {
         final user = UserModel.fromJson(jsonDecode(res.body));
-        final data = UserData.fromJson(jsonDecode(res.body));
+        user.user!.password = data.password;
         print(user);
         print(res.body);
-        await storeCredentialToLocal(user, data);
+        await storeCredentialToLocal(user);
 
         return user;
       } else {
@@ -52,11 +52,12 @@ class AuthService {
 
       if (res.statusCode == 200 || res.statusCode == 201) {
         final user = UserModel.fromJson(jsonDecode(res.body));
-        final data = UserData.fromJson(jsonDecode(res.body));
+        user.user!.password = data.password;
+
         print(user.token);
 
         print(res.body);
-        await storeCredentialToLocal(user, data);
+        await storeCredentialToLocal(user);
 
         return user;
       } else {
@@ -68,12 +69,12 @@ class AuthService {
     }
   }
 
-  Future<void> storeCredentialToLocal(UserModel user, UserData user2) async {
+  Future<void> storeCredentialToLocal(UserModel user) async {
     try {
       const storage = FlutterSecureStorage();
       await storage.write(key: 'token', value: user.token);
       await storage.write(key: 'email', value: user.user!.email);
-      await storage.write(key: 'password', value: user2.password);
+      await storage.write(key: 'password', value: user.user!.password);
       print('store user to local: ${user.toJson()}');
     } catch (e) {
       rethrow;

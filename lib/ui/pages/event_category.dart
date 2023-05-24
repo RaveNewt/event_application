@@ -1,8 +1,14 @@
 import 'package:event_application/shared/theme.dart';
+import 'package:event_application/ui/pages/event_create.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class EventCategory extends StatefulWidget {
+  // final List<String>? listCategory = <String>[
+  //   'online',
+  //   'offline',
+  // ];
+
   const EventCategory({super.key});
 
   @override
@@ -88,7 +94,9 @@ class _EventCategoryState extends State<EventCategory> {
                     title: Text('Online Event'),
                     subtitle: Text('Peserta menhadiri event secara online'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/event-create-admin');
+                    },
                   ),
                 ),
               ),
@@ -103,7 +111,9 @@ class _EventCategoryState extends State<EventCategory> {
                     title: Text('Onsite Event'),
                     subtitle: Text('Peserta menhadiri event langsung'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/event-create');
+                    },
                   ),
                 ),
               ),

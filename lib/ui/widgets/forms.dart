@@ -1,3 +1,4 @@
+import 'package:event_application/models/event_model.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -188,9 +189,11 @@ class CustomSearchForm extends StatelessWidget {
 }
 
 class DescriptionFormField extends StatelessWidget {
+  final TextEditingController? controller;
   final String title;
   final String hintText;
-  const DescriptionFormField({this.title = '', this.hintText = '', super.key});
+  const DescriptionFormField(
+      {this.title = '', this.hintText = '', this.controller, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -205,6 +208,7 @@ class DescriptionFormField extends StatelessWidget {
           ),
         ),
         TextField(
+          controller: controller,
           keyboardType: TextInputType.multiline,
           keyboardAppearance: Brightness.dark,
           minLines: 1,
@@ -230,8 +234,14 @@ class DescriptionFormField extends StatelessWidget {
 }
 
 class CategoryForm extends StatefulWidget {
-  List<String> list = <String>[];
-  CategoryForm({required this.list, super.key});
+  //final Category category;
+  List<String> list = <String>['Webinar'];
+  String controller = '';
+  CategoryForm(
+      {required this.list,
+      this.controller = '',
+      //required this.category,
+      super.key});
 
   @override
   State<CategoryForm> createState() => _CategoryFormState();
@@ -251,18 +261,19 @@ class _CategoryFormState extends State<CategoryForm> {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
+      onChanged: (value) {
+        // This is called when the user selects an item.
+        setState(() {
+          value = value!;
+          widget.controller = value.toString();
+        });
+      },
       items: list.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
         );
       }).toList(),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          value = value!;
-        });
-      },
     );
   }
 }

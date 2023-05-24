@@ -1,27 +1,35 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:event_application/bloc/event/event_bloc.dart';
+import 'package:event_application/models/event_form_model.dart';
+import 'package:event_application/models/event_model.dart';
+import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
-import 'package:event_application/ui/pages/event_admin.dart';
+import 'package:event_application/ui/pages/event_create.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateEvent extends StatefulWidget {
-  const CreateEvent({super.key});
+class EventCreateAdmin extends StatefulWidget {
+  final EventForm? event;
+  final Category? categorymodel;
+  const EventCreateAdmin({this.event, this.categorymodel, super.key});
 
   @override
-  State<CreateEvent> createState() => _CreateEventState();
+  State<EventCreateAdmin> createState() => _EventCreateAdminState();
 }
 
-class _CreateEventState extends State<CreateEvent> {
+class _EventCreateAdminState extends State<EventCreateAdmin> {
+  String list1 = '645a7ad9a939d6ed0838438a';
+  String list2 = '645a5660559f72d4a40d8465';
+
   final titleController = TextEditingController(text: '');
   final aboutController = TextEditingController(text: '');
   final locationController = TextEditingController(text: '');
-  String categoryString = '';
-  TextEditingController categoryController = TextEditingController(text: '');
+  final categoryController = TextEditingController(text: '');
   final priceController = TextEditingController(text: '');
   final timeController = TextEditingController(text: '');
   TextEditingController dateInput = TextEditingController();
@@ -30,28 +38,52 @@ class _CreateEventState extends State<CreateEvent> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    titleController.dispose();
+    aboutController.dispose();
+    locationController.dispose();
+    categoryController.dispose();
+    priceController.dispose();
+    timeController.dispose();
+    super.dispose();
+  }
+
   bool isonline = true;
-  XFile? image;
-  final ImagePicker picker = ImagePicker();
-  Future getImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
+  File? selectedImage;
+  selectImage() async {
+    final imagePicker = ImagePicker();
+    final XFile? image =
+        await imagePicker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      image = img;
-    });
+    if (image != null) {
+      File? compressed = await compressImage(image.path);
+      setState(() {
+        selectedImage = compressed;
+      });
+    }
   }
 
-  void myAlert() {
-    ShowDialog();
-  }
+  // void myAlert() {
+  //   ShowDialog();
+  // }
 
   bool onlineEvent = false;
-  List<String> list = <String>['Online Event', 'Music Concert', 'Seminar'];
+  List<String> list = <String>[
+    'Webinar',
+    'Concert',
+  ];
+
   @override
   Widget build(BuildContext context) {
+    String list3 = list.first;
     return BlocConsumer<EventBloc, EventState>(listener: (context, state) {
-      if (state is PostEvent) {
-        Navigator.pushNamedAndRemoveUntil(context, '/navbar', (route) => false);
+      if (state is EventSuccessAdmin) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/event-admin', (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/event-admin', (route) => false);
       }
     }, builder: (context, state) {
       if (state is EventLoadingState) {
@@ -106,7 +138,25 @@ class _CreateEventState extends State<CreateEvent> {
                 ),
                 CustomFilledButton(
                   title: 'Submit & Save',
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<EventBloc>().add(
+                          EventCreate(
+                            EventForm(
+                              title: titleController.text,
+                              about: aboutController.text,
+                              location: locationController.text,
+                              price: priceController.text,
+                              category: categoryController == 'Webinar'
+                                  ? list1
+                                  : list2,
+                              date: dateInput.text,
+                              cover: 'data:image/png;base64,' +
+                                  base64Encode(File(selectedImage!.path)
+                                      .readAsBytesSync()),
+                            ),
+                          ),
+                        );
+                  },
                   width: 200,
                 ),
               ]),
@@ -137,42 +187,17 @@ class _CreateEventState extends State<CreateEvent> {
             height: 24,
           ),
           DescriptionFormField(
+            controller: aboutController,
             title: 'Deskripsi Event',
             hintText: 'Masukkan Deskripsi Event',
           ),
           SizedBox(
             height: 24,
           ),
-          // CategoryForm(
-          //   list: list,
-          //   controller: categoryController,
-          // ),
-          DropdownButtonFormField(
-            value: categoryString,
-            decoration: InputDecoration(
-              labelText: 'Kategori Event',
-              labelStyle:
-                  blackTextStyle.copyWith(fontSize: 16, fontWeight: light),
-              hintText: 'Pilih Kategori Event',
-              hintStyle:
-                  greyTextStyle.copyWith(fontSize: 16, fontWeight: light),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            items: list.map((category) {
-              return DropdownMenuItem<String>(
-                value: category,
-                child: Text(category),
-              );
-            }).toList(),
-            onChanged: (value) {
-              // This is called when the user selects an item.
-              setState(() {
-                categoryString = value!;
-              });
-            },
-          ),
+          BlocBuilder<EventBloc, EventState>(builder: (context, state) {
+            return CategoryForm(
+                list: list, controller: categoryController.text);
+          }),
         ],
       ),
     );
@@ -290,41 +315,33 @@ class _CreateEventState extends State<CreateEvent> {
             height: 12,
           ),
           Center(
-            child: CustomFilledButton(
-              title: 'Unggah Photo',
-              onPressed: () {
-                myAlert();
+            child: GestureDetector(
+              onTap: () {
+                selectImage();
               },
-              width: 150,
-              height: 40,
-              fontSize: 12,
+              child: Container(
+                width: 300,
+                height: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: greyColor,
+                  image: selectedImage == null
+                      ? null
+                      : DecorationImage(
+                          fit: BoxFit.cover,
+                          image: FileImage(
+                            File(
+                              selectedImage!.path,
+                            ),
+                          ),
+                        ),
+                ),
+                child: selectedImage != null
+                    ? null
+                    : Center(child: Icon(Icons.upload_file)),
+              ),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          //if image not null show the image
-          //if image null show text
-          image != null
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.file(
-                        //to show image, you type like this.
-                        File(image!.path),
-                        fit: BoxFit.cover,
-                        width: 150,
-                        height: 150,
-                      ),
-                    ),
-                  ),
-                )
-              : Text(
-                  "No Image",
-                  style: TextStyle(fontSize: 20),
-                )
         ],
       ),
     );
@@ -399,50 +416,50 @@ class _CreateEventState extends State<CreateEvent> {
     );
   }
 
-  Future ShowDialog() {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Please choose media to select'),
-            content: Container(
-              height: MediaQuery.of(context).size.height / 6,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    //if user click this button, user can upload image from gallery
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.gallery);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.image),
-                        Text('From Gallery'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    //if user click this button. user can upload image from camera
-                    onPressed: () {
-                      Navigator.pop(context);
-                      getImage(ImageSource.camera);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.camera),
-                        Text('From Camera'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // Future ShowDialog() {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           shape:
+  //               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  //           title: Text('Please choose media to select'),
+  //           content: Container(
+  //             height: MediaQuery.of(context).size.height / 6,
+  //             child: Column(
+  //               children: [
+  //                 ElevatedButton(
+  //                   //if user click this button, user can upload image from gallery
+  //                   onPressed: () {
+  //                     Navigator.pop(context);
+  //                     selectImage(ImageSource.gallery);
+  //                   },
+  //                   child: Row(
+  //                     children: [
+  //                       Icon(Icons.image),
+  //                       Text('From Gallery'),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 ElevatedButton(
+  //                   //if user click this button. user can upload image from camera
+  //                   onPressed: () {
+  //                     Navigator.pop(context);
+  //                     getImage(ImageSource.camera);
+  //                   },
+  //                   child: Row(
+  //                     children: [
+  //                       Icon(Icons.camera),
+  //                       Text('From Camera'),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   PreferredSizeWidget AppBarCostum() {
     return AppBar(

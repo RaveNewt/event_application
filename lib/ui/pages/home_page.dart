@@ -1,4 +1,5 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
+import 'package:event_application/bloc/event/event_bloc.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/card.dart';
 import 'package:event_application/ui/widgets/forms.dart';
@@ -80,14 +81,27 @@ class HomePage extends StatelessWidget {
   }
 
   Widget ListCard() {
-    return GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        mainAxisSpacing: 8,
-        childAspectRatio: 0.9,
-        crossAxisSpacing: 8,
-        children: List.generate(4, (index) {
-          return CostumCard();
-        }));
+    return BlocProvider(
+      create: (context) => EventBloc()..add(GetAllEvent()),
+      child: BlocBuilder<EventBloc, EventState>(builder: (context, state) {
+        if (state is EventSuccess) {
+          return GridView.count(
+              physics: NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              mainAxisSpacing: 8,
+              childAspectRatio: 0.7,
+              crossAxisSpacing: 8,
+              children: state.events.map((event) {
+                return CostumCard(
+                  event: event,
+                );
+              }).toList());
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }),
+    );
   }
 }

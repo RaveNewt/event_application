@@ -1,9 +1,11 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
+import 'package:event_application/bloc/event/event_bloc.dart';
 import 'package:event_application/bloc/navigation/navigation_cubit.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/pages/event_admin.dart';
 import 'package:event_application/ui/pages/event_category.dart';
 import 'package:event_application/ui/pages/event_create.dart';
+import 'package:event_application/ui/pages/event_create_dart.dart';
 import 'package:event_application/ui/pages/event_detail.dart';
 import 'package:event_application/ui/pages/home_page.dart';
 import 'package:event_application/ui/pages/login_page.dart';
@@ -29,6 +31,9 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc()..add(AuthGetCurrent()),
         ),
         BlocProvider(
+          create: (context) => EventBloc(),
+        ),
+        BlocProvider(
           create: (context) => NavigationCubit(),
         ),
       ],
@@ -51,6 +56,11 @@ class MyApp extends StatelessWidget {
           '/navbar': (context) => const NavbarBottom(),
           '/login': (context) => const LoginPage(),
           '/register': (context) => const RegisterPage(),
+          '/event-admin': (context) => const EventAdmin(),
+          '/event-detail': (context) => const EventDetail(),
+          '/event-category': (context) => const EventCategory(),
+          '/event-create': (context) => CreateEvent(),
+          '/event-create-admin': (context) => EventCreateAdmin(),
         },
       ),
     );

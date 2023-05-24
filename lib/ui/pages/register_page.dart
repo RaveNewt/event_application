@@ -111,7 +111,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             CustomTextButton(
               title: 'Login',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
             ),
           ],
         ),

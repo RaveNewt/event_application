@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:event_application/models/event_model.dart';
+import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/textmore.dart';
@@ -6,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
 class EventDetail extends StatefulWidget {
-  const EventDetail({super.key});
+  final EventModel? event;
+  const EventDetail({this.event, super.key});
 
   @override
   State<EventDetail> createState() => _EventDetailState();
@@ -21,7 +26,9 @@ class _EventDetailState extends State<EventDetail> {
           backgroundColor: Colors.transparent,
           bottomOpacity: 12,
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: Icon(
               Icons.arrow_back,
               color: whiteColor,
@@ -55,12 +62,15 @@ class _EventDetailState extends State<EventDetail> {
                 child: Container(
                   width: double.maxFinite,
                   height: 300,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
+                      image: widget.event!.cover == null
+                          ? AssetImage(
+                              'assets/images/backgroundLogin.png',
+                            )
+                          : NetworkImage(ImageURl() + widget.event!.cover!)
+                              as ImageProvider,
                       fit: BoxFit.fitWidth,
-                      image: AssetImage(
-                        'assets/images/backgroundLogin.png',
-                      ),
                     ),
                   ),
                 ),
@@ -73,7 +83,7 @@ class _EventDetailState extends State<EventDetail> {
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                   decoration: BoxDecoration(
                     color: whiteColor,
-                    borderRadius: const BorderRadius.vertical(
+                    borderRadius: BorderRadius.vertical(
                       top: Radius.circular(30),
                     ),
                   ),
@@ -81,7 +91,7 @@ class _EventDetailState extends State<EventDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Noah Concert',
+                        widget.event!.title!,
                         style: blackTextStyle.copyWith(
                           fontSize: 22,
                           fontWeight: bold,
@@ -115,9 +125,7 @@ class _EventDetailState extends State<EventDetail> {
                       SizedBox(
                         height: 12,
                       ),
-                      TextDescription(
-                          text:
-                              'THE GAME ON !!!\n\nBRING YOU TO THE STRONGEST SPLASH EVER AT THE VERY FIRST WATER FIGHTING EVENT IN INDONESIA !\n\nJTEAM PROJECT PRESENTING TO YOU\n\nFOR 10TH ANNIVERSARY OF BTS\n\n\"SUMMER SPLASH\" The Wettest Festival In Town\n\nWater Fighting, Dance, Music Performance, DJ Performance, Noraebang Party, BTS Birthday Celebrete with Fireworks'),
+                      TextDescription(text: '${widget.event!.about}'),
                       SizedBox(
                         height: 12,
                       ),
@@ -155,7 +163,7 @@ class _EventDetailState extends State<EventDetail> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Lapangan Bung Karno',
+              widget.event!.location!,
               style: blackTextStyle.copyWith(
                 fontSize: 20,
                 fontWeight: bold,
@@ -188,7 +196,7 @@ class _EventDetailState extends State<EventDetail> {
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
         decoration: BoxDecoration(
           color: whiteColor,
-          borderRadius: const BorderRadius.vertical(
+          borderRadius: BorderRadius.vertical(
             top: Radius.circular(30),
           ),
         ),
@@ -207,7 +215,7 @@ class _EventDetailState extends State<EventDetail> {
                   ),
                 ),
                 Text(
-                  'Rp. 100.000',
+                  formatCurrency(widget.event!.price!),
                   style: primaryTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: bold,
@@ -241,7 +249,7 @@ class _EventDetailState extends State<EventDetail> {
           width: 8,
         ),
         Text(
-          '22 Juni 2023',
+          ConvertDate(widget.event!.date!),
           style: blackTextStyle.copyWith(
             fontSize: 16,
             fontWeight: bold,
