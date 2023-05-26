@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       if (state is AuthSuccess) {
         return Scaffold(
+          backgroundColor: bglight,
           body: ListView(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 60),
               children: [
@@ -35,6 +36,7 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthSuccess) {
           return Container(
+            color: whiteColor,
             margin: EdgeInsets.only(bottom: 24),
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

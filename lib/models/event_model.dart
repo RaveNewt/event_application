@@ -1,3 +1,5 @@
+import 'package:event_application/models/user_model.dart';
+
 class EventModel {
   String? id;
   String? title;
@@ -6,6 +8,7 @@ class EventModel {
   String? location;
   String? cover;
   String? date;
+  int? stock;
   Category? category;
   Speaker? speaker;
   String? createdAt;
@@ -23,6 +26,7 @@ class EventModel {
     this.speaker,
     this.createdAt,
     this.updatedAt,
+    this.stock,
   });
 
   EventModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +38,7 @@ class EventModel {
 
     location = json['location'];
     date = json['date'];
+    stock = json['stock'];
     category = Category.fromJson(json['category']);
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -46,6 +51,7 @@ class EventModel {
     data['about'] = about;
     data['location'] = location;
     data['date'] = date;
+    data['stock'] = stock;
     data['category'] = category!.toJson();
     return data;
   }

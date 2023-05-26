@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
         body: Center(
           child: Container(
             width: 155,
-            height: 50,
+            height: 150,
             decoration: const BoxDecoration(
                 image: DecorationImage(
               image: AssetImage(

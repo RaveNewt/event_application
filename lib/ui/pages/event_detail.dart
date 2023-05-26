@@ -1,8 +1,11 @@
+import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:event_application/models/event_model.dart';
+import 'package:event_application/models/user_model.dart';
 import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
+import 'package:event_application/ui/pages/choose_payment.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/textmore.dart';
 import 'package:flutter/gestures.dart';
@@ -11,7 +14,10 @@ import 'package:readmore/readmore.dart';
 
 class EventDetail extends StatefulWidget {
   final EventModel? event;
-  const EventDetail({this.event, super.key});
+  const EventDetail({
+    Key? key,
+    this.event,
+  }) : super(key: key);
 
   @override
   State<EventDetail> createState() => _EventDetailState();
@@ -108,6 +114,27 @@ class _EventDetailState extends State<EventDetail> {
                       SizedBox(
                         height: 12,
                       ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.airplane_ticket,
+                            color: primaryColor,
+                          ),
+                          Text(
+                            "Stock: ",
+                            style: blackTextStyle.copyWith(
+                                fontSize: 16, fontWeight: medium),
+                          ),
+                          Text(
+                            widget.event!.stock.toString(),
+                            style: blackTextStyle.copyWith(
+                                fontSize: 16, fontWeight: bold),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
                       Divider(
                         thickness: 1,
                         color: greyColor,
@@ -133,9 +160,7 @@ class _EventDetailState extends State<EventDetail> {
                         thickness: 1,
                         color: greyColor,
                       ),
-                      TextDescription(
-                          text:
-                              'THE GAME ON !!!\n\nBRING YOU TO THE STRONGEST SPLASH EVER AT THE VERY FIRST WATER FIGHTING EVENT IN INDONESIA !\n\nJTEAM PROJECT PRESENTING TO YOU\n\nFOR 10TH ANNIVERSARY OF BTS\n\n\"SUMMER SPLASH\" The Wettest Festival In Town\n\nWater Fighting, Dance, Music Performance, DJ Performance, Noraebang Party, BTS Birthday Celebrete with Fireworks'),
+                      SomeThingWrong(),
                     ],
                   ),
                 ),
@@ -208,7 +233,7 @@ class _EventDetailState extends State<EventDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Noah Concert',
+                  widget.event!.title!,
                   style: blackTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: bold,
@@ -225,7 +250,16 @@ class _EventDetailState extends State<EventDetail> {
             ),
             CustomFilledButton(
               title: 'Buy Ticket',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChoosePayment(
+                      event: widget.event,
+                    ),
+                  ),
+                );
+              },
               width: 100,
               height: 80,
               fontSize: 12,
@@ -254,6 +288,77 @@ class _EventDetailState extends State<EventDetail> {
             fontSize: 16,
             fontWeight: bold,
           ),
+        )
+      ],
+    );
+  }
+
+  Widget SomeThingWrong() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 12,
+        ),
+        Text(
+          "Something Wrong?",
+          style: primaryTextStyle.copyWith(
+            fontSize: 16,
+            fontWeight: bold,
+          ),
+        ),
+        SizedBox(
+          height: 12,
+        ),
+        Row(
+          children: [
+            Icon(
+              Icons.info,
+              color: dangerColor,
+              size: 16,
+            ),
+            SizedBox(
+              width: 12,
+            ),
+            Text(
+              "Report This content",
+              style: dangerTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: medium,
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: 12,
+        ),
+        Text(
+          "if any problem occur feel free to check our help center",
+          style: blackTextStyle.copyWith(
+            fontSize: 16,
+            fontWeight: light,
+          ),
+        ),
+        SizedBox(
+          height: 12,
+        ),
+        Row(
+          children: [
+            Text(
+              "Contact Us: ",
+              style: blackTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: light,
+              ),
+            ),
+            Text(
+              "Eventify@gmail.com",
+              style: primaryTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: bold,
+              ),
+            ),
+          ],
         )
       ],
     );

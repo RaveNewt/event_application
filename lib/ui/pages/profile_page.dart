@@ -1,4 +1,6 @@
+import 'package:another_flushbar/flushbar_route.dart';
 import 'package:event_application/bloc/auth/auth_bloc.dart';
+import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/divider.dart';
@@ -32,7 +34,7 @@ class ProfilePage extends StatelessWidget {
       ),
       Header(),
       CustomeDivider(),
-      SettingList(),
+      SettingList(context),
       CustomeDivider(),
       CreateEvent(context),
     ]));
@@ -87,35 +89,43 @@ class ProfilePage extends StatelessWidget {
     });
   }
 
-  Widget SettingList() {
-    return Column(
-      children: [
-        Setting(
-          title: 'History Payment',
-          icon: Icon(
-            Icons.history,
-            color: primaryColor,
+  Widget SettingList(BuildContext context) {
+    return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+      if (state is AuthInitial) {
+        Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
+      }
+    }, builder: (context, state) {
+      return Column(
+        children: [
+          Setting(
+            title: 'History Payment',
+            icon: Icon(
+              Icons.history,
+              color: primaryColor,
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
-        ),
-        Setting(
-          title: 'Setting',
-          icon: Icon(
-            Icons.settings,
-            color: primaryColor,
+          Setting(
+            title: 'Setting',
+            icon: Icon(
+              Icons.settings,
+              color: primaryColor,
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
-        ),
-        Setting(
-          title: 'Log Out',
-          icon: Icon(
-            Icons.logout,
-            color: primaryColor,
+          Setting(
+            title: 'Log Out',
+            icon: Icon(
+              Icons.logout,
+              color: primaryColor,
+            ),
+            onPressed: () {
+              context.read<AuthBloc>().add(AuthLogout());
+            },
           ),
-          onPressed: () {},
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget CreateEvent(BuildContext context) {

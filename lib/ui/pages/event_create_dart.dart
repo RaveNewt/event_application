@@ -32,6 +32,8 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
   final categoryController = TextEditingController(text: '');
   final priceController = TextEditingController(text: '');
   final timeController = TextEditingController(text: '');
+  final ticketController = TextEditingController(text: '');
+
   TextEditingController dateInput = TextEditingController();
   void initState() {
     dateInput.text = ""; //set the initial value of text field
@@ -136,6 +138,10 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
                 SizedBox(
                   height: 32,
                 ),
+                Stock(),
+                SizedBox(
+                  height: 32,
+                ),
                 CustomFilledButton(
                   title: 'Submit & Save',
                   onPressed: () {
@@ -146,6 +152,7 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
                               about: aboutController.text,
                               location: locationController.text,
                               price: priceController.text,
+                              stock: ticketController.text,
                               category: categoryController == 'Webinar'
                                   ? list1
                                   : list2,
@@ -288,6 +295,27 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
             hintText: 'Masukkan Harga Tiket',
             isShowIcon: false,
             controller: priceController,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget Stock() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Harga Tiket', style: blackTextStyle.copyWith(fontSize: 16)),
+          Divider(
+            color: greyColor,
+          ),
+          CustomFormField(
+            title: 'Ticket',
+            hintText: 'Masukkan Tiket',
+            isShowIcon: false,
+            controller: ticketController,
           ),
         ],
       ),

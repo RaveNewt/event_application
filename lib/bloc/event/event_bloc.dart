@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/models/event_form_model.dart';
 import 'package:event_application/models/event_model.dart';
 import 'package:event_application/models/login_model.dart';

@@ -1,8 +1,3 @@
-import 'dart:io';
-
-import 'package:event_application/models/event_model.dart';
-import 'package:mongo_dart/mongo_dart.dart';
-
 class EventForm {
   String? title;
   String? about;
@@ -11,11 +6,13 @@ class EventForm {
   String? cover;
   String? date;
   String? category;
+  String? stock;
 
   EventForm.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     about = json['about'];
     cover = json['cover'];
+    cover = json['stock'];
 
     price = json['price'];
     location = json['location'];
@@ -27,6 +24,7 @@ class EventForm {
       this.about,
       this.price,
       this.cover,
+      this.stock,
       this.location,
       this.date,
       this.category});
@@ -35,6 +33,7 @@ class EventForm {
     String? about,
     String? price,
     String? cover,
+    String? stock,
     String? location,
     String? date,
     String? category,
@@ -44,6 +43,7 @@ class EventForm {
         about: about ?? this.about,
         price: this.price,
         cover: this.cover,
+        stock: this.stock,
         location: location ?? this.location,
         date: date ?? this.date,
         category: this.category,
@@ -55,6 +55,7 @@ class EventForm {
       'about': about,
       'price': price,
       'cover': cover,
+      'stock': stock,
       'location': location,
       'date': date,
       'category': category.toString(),

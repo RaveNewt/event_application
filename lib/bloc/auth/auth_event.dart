@@ -33,6 +33,9 @@ class AuthLogin extends AuthEvent {
 
 class AuthGetCurrent extends AuthEvent {}
 
+class AuthLogout extends AuthEvent {}
+
+
 // class AuthUpdateUser extends AuthEvent {
 //   final UserModel user;
 //   final UserEditFormModel data;
