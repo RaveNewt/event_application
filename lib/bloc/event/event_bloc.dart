@@ -1,14 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/models/event_form_model.dart';
 import 'package:event_application/models/event_model.dart';
-import 'package:event_application/models/login_model.dart';
-import 'package:event_application/models/register_model.dart';
-import 'package:event_application/models/user_model.dart';
-import 'package:event_application/services/auth_service.dart';
 import 'package:event_application/services/event_service.dart';
-import 'package:flutter/material.dart';
 
 part 'event_event.dart';
 part 'event_state.dart';
@@ -45,6 +39,18 @@ class EventBloc extends Bloc<EventEvent, EventState> {
           final categories = await EventService().getAllCategory();
 
           emit(CategorySuccess(categories));
+        } catch (e) {
+          emit(EventFailed(e.toString()));
+        }
+      }
+      if (event is EventGetCategory) {
+        try {
+          emit(EventLoadingState());
+
+          final categories =
+              await EventService().getAllEventCategory(event.category);
+
+          emit(EventSuccess(categories));
         } catch (e) {
           emit(EventFailed(e.toString()));
         }

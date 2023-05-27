@@ -19,7 +19,7 @@ class Setting extends StatelessWidget {
       margin: EdgeInsets.only(top: 12, bottom: 24),
       padding: EdgeInsets.symmetric(horizontal: 24),
       child: GestureDetector(
-        onTap: () {},
+        onTap: onPressed,
         child: Row(
           children: [
             icon,

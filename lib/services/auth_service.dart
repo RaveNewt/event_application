@@ -21,7 +21,7 @@ class AuthService {
 
       if (res.statusCode == 200 || res.statusCode == 201) {
         final user = UserModel.fromJson(jsonDecode(res.body));
-        user.user!.password = data.password;
+        user.password = data.password;
         print(user);
         print(res.body);
         await storeCredentialToLocal(user);
@@ -52,7 +52,7 @@ class AuthService {
 
       if (res.statusCode == 200 || res.statusCode == 201) {
         final user = UserModel.fromJson(jsonDecode(res.body));
-        user.user!.password = data.password;
+        user.password = data.password;
 
         print(user.token);
 
@@ -96,8 +96,20 @@ class AuthService {
     try {
       const storage = FlutterSecureStorage();
       await storage.write(key: 'token', value: user.token);
-      await storage.write(key: 'email', value: user.user!.email);
-      await storage.write(key: 'password', value: user.user!.password);
+      await storage.write(key: 'email', value: user.email);
+      await storage.write(key: 'password', value: user.password);
+      print('store user to local: ${user.toJson()}');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> storeCredentialToLocalRegister(RegisterFormModel user) async {
+    try {
+      const storage = FlutterSecureStorage();
+      await storage.write(key: 'token', value: user.token);
+      await storage.write(key: 'email', value: user.email);
+      await storage.write(key: 'password', value: user.password);
       print('store user to local: ${user.toJson()}');
     } catch (e) {
       rethrow;
@@ -139,7 +151,6 @@ class AuthService {
     }
   }
 
-  @override
   Future<void> clearLocalStorage() async {
     try {
       const storage = FlutterSecureStorage();

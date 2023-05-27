@@ -20,7 +20,7 @@ class AuthFailed extends TransactionState {
 }
 
 class TransactionSuccess extends TransactionState {
-  final CheckoutForm data;
+  final TransactionModel data;
   const TransactionSuccess(this.data);
 
   @override

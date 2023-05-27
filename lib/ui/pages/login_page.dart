@@ -1,5 +1,6 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/models/login_model.dart';
+import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/forms.dart';
@@ -21,8 +22,12 @@ class _LoginPageState extends State<LoginPage> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
+          showSuccessSnackbar(context, 'Login Berhasil');
           Navigator.pushNamedAndRemoveUntil(
               context, '/navbar', (route) => false);
+        }
+        if (state is AuthFailed) {
+          showSuccessSnackbar(context, state.e);
         }
       },
       builder: (context, state) {
@@ -82,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         CustomFormField(
                           title: 'Email Address',
+                          hintText: 'eventify@gmail.com',
                           controller: emailController,
                         ),
                         const SizedBox(
@@ -89,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         CustomFormField(
                           title: 'Password',
+                          hintText: 'Password',
                           controller: passwordController,
                           obscureText: true,
                           icon: Icon(Icons.key),

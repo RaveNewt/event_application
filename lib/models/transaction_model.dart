@@ -1,58 +1,37 @@
-import 'package:event_application/models/event_model.dart';
-
 class TransactionModel {
-  PersonalDetail? user;
-  String? event;
-  String? payment;
-
-  TransactionModel({this.event, this.user, this.payment});
-
-  TransactionModel.fromJson(Map<String, dynamic> json) {
-    event = json['historyEvent'];
-    user =
-        PersonalDetail.fromJson(json['personalDetail'] as Map<String, dynamic>);
-    payment = json['payment'];
-  }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['historyEvent'] = event;
-    data['personalDetail'] = user!.toJson();
-    data['payment'] = payment;
-    return data;
-  }
-}
-
-class PersonalDetail {
   String? id;
   String? username;
   String? email;
-  String? password;
-  String? role;
+  String? payment;
+  String? title;
+  int? price;
 
-  PersonalDetail({
+  TransactionModel({
     this.id,
     this.username,
     this.email,
-    this.role,
+    this.title,
+    this.price,
+    this.payment,
   });
 
-  PersonalDetail.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
-    username = json['username'];
-    email = json['email'];
-    role = json['role'];
+  TransactionModel.fromJson(Map<String, dynamic> json) {
+    id = json['data']['_id'];
+    username = json['data']['personalDetail']['username'];
+    email = json['data']['personalDetail']['email'];
+    title = json['data']['historyEvent']['title'];
+    price = json['data']['historyEvent']['price'];
+    payment = json['data']['payment'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = id;
     data['username'] = username;
     data['email'] = email;
-    data['password'] = password;
-    data['role'] = role;
     return data;
   }
 
-  PersonalDetail.copyWith({
+  TransactionModel.copyWith({
     String? username,
     String? email,
     String? password,
@@ -60,7 +39,5 @@ class PersonalDetail {
     id = id;
     username = username ?? this.username;
     email = email ?? this.email;
-    password = password ?? this.password;
-    role = role ?? this.role;
   }
 }

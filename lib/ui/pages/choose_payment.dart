@@ -119,7 +119,7 @@ class _ChoosePaymentState extends State<ChoosePayment> {
               child: Column(children: [
                 CustomFormField(
                   controller: usernameController =
-                      TextEditingController(text: state.data.user!.username),
+                      TextEditingController(text: state.data.username),
                   title: "name",
                   isShowIcon: false,
                 ),
@@ -128,7 +128,7 @@ class _ChoosePaymentState extends State<ChoosePayment> {
                 ),
                 CustomFormField(
                   controller: emailController =
-                      TextEditingController(text: state.data.user!.email),
+                      TextEditingController(text: state.data.email),
                   title: "email",
                   isShowIcon: false,
                 ),
@@ -211,11 +211,12 @@ class _ChoosePaymentState extends State<ChoosePayment> {
         listener: (context, state) {
       if (state is TransactionSuccess) {
         Navigator.pushNamedAndRemoveUntil(
-            context, '/payment-success', (route) => false);
+            context, '/transaction-page', (route) => false);
       } else {
-        Navigator.pushNamedAndRemoveUntil(context, '/navbar', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/transaction-page', (route) => false);
       }
-    }, builder: (context, State) {
+    }, builder: (context, state) {
       return BottomAppBar(
         child: Container(
           width: double.maxFinite,

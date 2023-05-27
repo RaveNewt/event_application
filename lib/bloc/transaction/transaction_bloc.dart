@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:event_application/models/checkout_form.dart';
+import 'package:event_application/models/transaction_model.dart';
 import 'package:event_application/services/transaction_service.dart';
 
 part 'transaction_event.dart';
@@ -11,8 +12,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<TransactionEvent>((event, emit) async {
       if (event is TrasactionCheckout) {
         try {
-          print('auth form register');
-
           emit(TransactionLoading());
 
           final res = await TransactionService().checkout(event.data);

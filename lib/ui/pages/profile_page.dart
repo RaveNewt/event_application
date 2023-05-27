@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar_route.dart';
 import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
@@ -65,7 +64,7 @@ class ProfilePage extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      state.data.user!.username.toString(),
+                      state.data.username.toString(),
                       style: blackTextStyle.copyWith(
                         fontSize: 26,
                         fontWeight: bold,
@@ -91,10 +90,18 @@ class ProfilePage extends StatelessWidget {
 
   Widget SettingList(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+      if (state is AuthFailed) {
+        showCustomSnackbar(context, state.e);
+      }
       if (state is AuthInitial) {
         Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
       }
     }, builder: (context, state) {
+      if (state is AuthLoading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
       return Column(
         children: [
           Setting(

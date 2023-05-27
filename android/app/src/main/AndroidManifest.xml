@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.event_application">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="event_application"
         android:name="${applicationName}"
@@ -30,5 +31,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data 
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDvdCYFotOFfEVACant7tITm-chz15pTT0"/>
     </application>
 </manifest>

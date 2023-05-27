@@ -26,3 +26,11 @@ class AuthSuccess extends AuthState {
   @override
   List<Object> get props => [data];
 }
+
+class AuthSuccessRegister extends AuthState {
+  final RegisterFormModel data;
+  const AuthSuccessRegister(this.data);
+
+  @override
+  List<Object> get props => [data];
+}

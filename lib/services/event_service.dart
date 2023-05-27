@@ -4,8 +4,6 @@ import 'package:event_application/models/event_form_model.dart';
 import 'package:event_application/models/event_model.dart';
 import 'package:event_application/services/auth_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
-import 'package:mime/mime.dart';
 
 class EventService {
   final String baseUrl = 'http://localhost:3000/api/v1';
@@ -16,6 +14,35 @@ class EventService {
 
       final res = await http.get(
         Uri.parse('$baseUrl/events'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      print(token);
+
+      if (res.statusCode == 200) {
+        List<EventModel> datas = List<EventModel>.from(
+          jsonDecode(res.body)['data'].map(
+            (data) => EventModel.fromJson(data),
+          ),
+        ).toList();
+        print(res.body);
+
+        return datas;
+      }
+      return throw jsonDecode(res.body)['message'];
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<List<EventModel>> getAllEventCategory(String category) async {
+    try {
+      final token = await AuthService().getToken();
+
+      final res = await http.get(
+        Uri.parse('$baseUrl/events/admin?category=$category'),
         headers: {
           'Authorization': 'Bearer $token',
         },

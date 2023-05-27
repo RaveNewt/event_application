@@ -21,6 +21,15 @@ void showCustomSnackbar(BuildContext context, String message) {
   ).show(context);
 }
 
+void showSuccessSnackbar(BuildContext context, String message) {
+  Flushbar(
+    message: message,
+    flushbarPosition: FlushbarPosition.BOTTOM,
+    backgroundColor: dangerColor,
+    duration: const Duration(seconds: 2),
+  ).show(context);
+}
+
 String ConvertDate(String date) {
   DateTime time = DateTime.parse(date);
   String dateTime = DateFormat('dd MMMM yyyy').format(time);

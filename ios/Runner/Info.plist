@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  		<string>sms</string>
+  		<string>tel</string>
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>the app nee local permission</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Need to upload image</string>
 	<key>NSCameraUsageDescription</key>

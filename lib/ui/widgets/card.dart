@@ -90,7 +90,9 @@ class CostumCard extends StatelessWidget {
                           height: 4,
                         ),
                         Text(
-                          formatCurrency(event.price!),
+                          event.price == 0
+                              ? 'Gratis'
+                              : formatCurrency(event.price!),
                           style: primaryTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: semiBold,

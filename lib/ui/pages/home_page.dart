@@ -1,7 +1,9 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/bloc/event/event_bloc.dart';
 import 'package:event_application/shared/theme.dart';
+import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/card.dart';
+import 'package:event_application/ui/widgets/divider.dart';
 import 'package:event_application/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +24,75 @@ class HomePage extends StatelessWidget {
                 CustomSearchForm(
                   hintText: "Music Event, webinar...",
                   icon: Icon(Icons.search),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/event_concert');
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/icon_concert.png',
+                            width: 64,
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            'Concert',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: bold,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 24),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/event_concert');
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/icon_webinar.png',
+                            width: 64,
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            'Webinar',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: bold,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                Text(
+                  'Event',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 20,
+                    fontWeight: semiBold,
+                  ),
+                ),
+                CustomeDivider(),
+                SizedBox(
+                  height: 12,
                 ),
                 ListCard(),
               ]),
@@ -56,7 +127,7 @@ class HomePage extends StatelessWidget {
                         height: 12,
                       ),
                       Text(
-                        state.data.user!.username.toString(),
+                        state.data.username.toString(),
                         style: primaryTextStyle.copyWith(
                           fontSize: 16,
                           fontWeight: semiBold,
@@ -88,6 +159,7 @@ class HomePage extends StatelessWidget {
       child: BlocBuilder<EventBloc, EventState>(builder: (context, state) {
         if (state is EventSuccess) {
           return GridView.count(
+              padding: EdgeInsets.zero,
               physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
               shrinkWrap: true,

@@ -1,4 +1,6 @@
 import 'package:event_application/shared/theme.dart';
+import 'package:event_application/ui/pages/location.dart';
+import 'package:event_application/ui/pages/search_location.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:flutter/material.dart';
 
@@ -74,6 +76,21 @@ class _EventAdminState extends State<EventAdmin> {
                 title: '+ Buat Event',
                 onPressed: () {
                   Navigator.pushNamed(context, '/event-category');
+                },
+                width: 200,
+                color: secondaryColor,
+              ),
+              SizedBox(
+                height: 24,
+              ),
+              CustomFilledButton(
+                title: '+ Lokasi',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SnapshotPage(),
+                      ));
                 },
                 width: 200,
                 color: secondaryColor,

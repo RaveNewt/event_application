@@ -1,6 +1,5 @@
-import 'package:event_application/models/transaction_model.dart';
-
 class CheckoutForm {
+  String? id;
   String? event;
   String? email;
   String? username;
@@ -8,25 +7,28 @@ class CheckoutForm {
 
   CheckoutForm.fromJson(Map<String, dynamic> json) {
     event = json['event'];
+    id = json['_id'];
     email = json['email'];
     username = json['username'];
 
     payment = json['payment'];
   }
   CheckoutForm({
+    this.id,
     this.event,
     this.email,
     this.username,
     this.payment,
   });
   CheckoutForm copyWith({
+    String? id,
     String? event,
-    String? personalDetail,
     String? email,
     String? username,
     String? payment,
   }) =>
       CheckoutForm(
+        id: id ?? this.id,
         event: event ?? this.event,
         email: this.email,
         username: username ?? this.username,

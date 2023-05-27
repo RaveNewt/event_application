@@ -1,22 +1,23 @@
+// class UserModel {
+//   String? token;
+//   UserModel? user;
+
+//   UserModel({this.token, this.user});
+
+//   UserModel.fromJson(Map<String, dynamic> json) {
+//     token = json['token'];
+//     user = UserModel.fromJson(json['result'] as Map<String, dynamic>);
+//   }
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['token'] = token;
+//     data['result'] = user!.toJson();
+//     return data;
+//   }
+// }
+
 class UserModel {
   String? token;
-  UserData? user;
-
-  UserModel({this.token, this.user});
-
-  UserModel.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
-    user = UserData.fromJson(json['result'] as Map<String, dynamic>);
-  }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['token'] = token;
-    data['result'] = user!.toJson();
-    return data;
-  }
-}
-
-class UserData {
   String? id;
   String? username;
   String? email;
@@ -25,27 +26,29 @@ class UserData {
   String? createdAt;
   String? updatedAt;
 
-  UserData(
+  UserModel(
       {this.id,
       this.username,
       this.email,
       this.password,
       this.role,
+      this.token,
       this.createdAt,
       this.updatedAt});
 
-  UserData.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
-    username = json['username'];
-    email = json['email'];
-    password = json['password'];
-    role = json['role'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
+  UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['data']['_id'];
+    token = json['token'];
+    username = json['data']['username'];
+    email = json['data']['email'];
+    password = json['data']['password'];
+    role = json['data']['role'];
+    createdAt = json['data']['createdAt'];
+    updatedAt = json['data']['updatedAt'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = id;
+    data['token'] = token;
     data['username'] = username;
     data['email'] = email;
     data['password'] = password;
@@ -55,7 +58,7 @@ class UserData {
     return data;
   }
 
-  UserData.copyWith({
+  UserModel.copyWith({
     String? username,
     String? email,
     String? password,

@@ -1,5 +1,6 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/models/register_model.dart';
+import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
               title: 'Username',
               controller: usernameController,
               icon: Icon(Icons.person),
+              hintText: 'Masukkan Username Anda',
             ),
             const SizedBox(
               height: 16,
@@ -81,7 +83,15 @@ class _RegisterPageState extends State<RegisterPage> {
               title: 'Password',
               controller: passwordController,
               obscureText: true,
+              hintText: 'Masukkan Password ANda',
               icon: Icon(Icons.key),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character\nexample: \tEventify4#',
+              style: dangerTextStyle.copyWith(fontSize: 12, fontWeight: light),
             ),
             const SizedBox(
               height: 16,

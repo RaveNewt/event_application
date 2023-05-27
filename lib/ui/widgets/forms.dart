@@ -14,23 +14,25 @@ class CustomFormField extends StatelessWidget {
   final bool isShowIcon;
   final Function()? onTap;
   final Function(String)? onFieldSubmitted;
+  final String? Function(String?)? validator;
 
-  CustomFormField({
-    Key? key,
-    required this.title,
-    this.icon = const Icon(
-      Icons.email_outlined,
-    ),
-    this.onTap,
-    this.value = '',
-    this.isShowIcon = true,
-    this.hintText = '',
-    this.isPassword = false,
-    this.obscureText = false,
-    this.controller,
-    this.isShowTitle = true,
-    this.onFieldSubmitted,
-  }) : super(key: key);
+  CustomFormField(
+      {Key? key,
+      required this.title,
+      this.icon = const Icon(
+        Icons.email_outlined,
+      ),
+      this.onTap,
+      this.value = '',
+      this.isShowIcon = true,
+      this.hintText = '',
+      this.isPassword = false,
+      this.obscureText = false,
+      this.controller,
+      this.isShowTitle = true,
+      this.onFieldSubmitted,
+      this.validator})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,7 @@ class CustomFormField extends StatelessWidget {
           ),
         (isShowIcon)
             ? TextFormField(
+                validator: validator,
                 onTap: onTap,
                 obscureText: obscureText,
                 controller: controller,
