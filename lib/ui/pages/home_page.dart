@@ -1,6 +1,8 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/bloc/event/event_bloc.dart';
+import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
+import 'package:event_application/ui/pages/event_detail.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/card.dart';
 import 'package:event_application/ui/widgets/divider.dart';
@@ -16,18 +18,23 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       if (state is AuthSuccess) {
         return Scaffold(
-          backgroundColor: bglight,
+          appBar: AppBar(
+              shadowColor: blackColor,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(12),
+                child: Container(
+                  color: Colors.white,
+                  height: 1,
+                ),
+              ),
+              automaticallyImplyLeading: false,
+              titleSpacing: 2,
+              backgroundColor: whiteColor,
+              title: Header(context)),
+          backgroundColor: bglight.withOpacity(0.3),
           body: ListView(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 60),
               children: [
-                Header(context),
-                CustomSearchForm(
-                  hintText: "Music Event, webinar...",
-                  icon: Icon(Icons.search),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -57,7 +64,7 @@ class HomePage extends StatelessWidget {
                     SizedBox(width: 24),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/event_concert');
+                        Navigator.pushNamed(context, '/event_webinar');
                       },
                       child: Column(
                         children: [
@@ -107,8 +114,7 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthSuccess) {
           return Container(
-            color: whiteColor,
-            margin: EdgeInsets.only(bottom: 24),
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,19 +126,17 @@ class HomePage extends StatelessWidget {
                         'Welcome Back',
                         style: blackTextStyle.copyWith(
                           fontSize: 20,
-                          fontWeight: bold,
+                          fontWeight: superbold,
                         ),
                       ),
                       SizedBox(
                         height: 12,
                       ),
-                      Text(
-                        state.data.username.toString(),
-                        style: primaryTextStyle.copyWith(
-                          fontSize: 16,
-                          fontWeight: semiBold,
-                        ),
-                      ),
+                      Text(state.data.username.toString().toUpperCase(),
+                          style: primaryTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: superbold,
+                          )),
                     ],
                   ),
                   Container(
@@ -158,19 +162,24 @@ class HomePage extends StatelessWidget {
       create: (context) => EventBloc()..add(GetAllEvent()),
       child: BlocBuilder<EventBloc, EventState>(builder: (context, state) {
         if (state is EventSuccess) {
-          return GridView.count(
-              padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              mainAxisSpacing: 8,
-              childAspectRatio: 0.7,
-              crossAxisSpacing: 8,
-              children: state.events.map((event) {
-                return CostumCard(
-                  event: event,
-                );
-              }).toList());
+          return Column(
+            children: [
+              GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                  childAspectRatio: 0.7,
+                ),
+                itemCount: state.events.length,
+                itemBuilder: (context, index) =>
+                    CostumCard(event: state.events[index]),
+                padding: EdgeInsets.zero,
+                physics: NeverScrollableScrollPhysics(),
+              ),
+            ],
+          );
         }
         return const Center(
           child: CircularProgressIndicator(),

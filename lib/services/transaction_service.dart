@@ -23,7 +23,7 @@ class TransactionService {
       );
 
       if (res.statusCode == 200 || res.statusCode == 201) {
-        final user = TransactionModel.fromJson(jsonDecode(res.body));
+        final user = TransactionModel.fromJson(jsonDecode(res.body)['data']);
         print(res.body);
 
         return user;
@@ -34,5 +34,37 @@ class TransactionService {
       print(e);
       rethrow;
     }
+  }
+
+  List<TransactionModel> results = [];
+  Future<List<TransactionModel>> getBookingTicketUser(
+      String participant) async {
+    try {
+      final token = await AuthService().getToken();
+
+      final res = await http.get(
+        Uri.parse('$baseUrl/transaction?participant=$participant'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      print(token);
+
+      if (res.statusCode == 200) {
+        List<TransactionModel> datas = List<TransactionModel>.from(
+          jsonDecode(res.body)['data'].map(
+            (data) => TransactionModel.fromJson(data),
+          ),
+        ).toList();
+        print(res.body);
+
+        return datas;
+      } else {
+        print("fetch error");
+      }
+    } on Exception catch (e) {
+      print('error: $e');
+    }
+    return results;
   }
 }

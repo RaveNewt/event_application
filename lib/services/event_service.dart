@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:event_application/bloc/event/event_bloc.dart';
 import 'package:event_application/models/event_form_model.dart';
 import 'package:event_application/models/event_model.dart';
 import 'package:event_application/services/auth_service.dart';
@@ -26,6 +27,7 @@ class EventService {
             (data) => EventModel.fromJson(data),
           ),
         ).toList();
+
         print(res.body);
 
         return datas;
@@ -64,6 +66,37 @@ class EventService {
       print(e);
       rethrow;
     }
+  }
+
+  Future<List<EventModel>> getAllEventAdmin(String user) async {
+    try {
+      final token = await AuthService().getToken();
+
+      final res = await http.get(
+        Uri.parse('$baseUrl/events/admin?user=$user'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      print(user);
+      print(token);
+
+      if (res.statusCode == 200) {
+        List<EventModel> datas = List<EventModel>.from(
+          jsonDecode(res.body)['data'].map(
+            (data) => EventModel.fromJson(data),
+          ),
+        ).toList();
+        print(res.body);
+
+        return datas;
+      } else {
+        print("fetch error");
+      }
+    } on Exception catch (e) {
+      print('error: $e');
+    }
+    return results;
   }
 
   // Future<void> createEvent(EventForm data) async {
@@ -155,6 +188,34 @@ class EventService {
     }
   }
 
+  Future<EventForm> updateEvent(String eventid, EventForm data) async {
+    try {
+      print(data.toJson());
+      final token = await AuthService().getToken();
+
+      final res = await http.put(
+        Uri.parse('$baseUrl/events/$eventid/upload'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+        body: data.toJson(),
+      );
+      print(token);
+      print(res.statusCode);
+      print('category ${data.category}');
+      print(res.body);
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        final user = EventForm.fromJson(jsonDecode(res.body));
+
+        return user;
+      }
+      throw jsonDecode(res.body)['message'];
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
   Future<List<Category>> getAllCategory() async {
     try {
       final token = await AuthService().getToken();
@@ -182,5 +243,41 @@ class EventService {
       print(e);
       rethrow;
     }
+  }
+
+  var data = [];
+  List<EventModel> results = [];
+
+  Future<List<EventModel>> getuserList({String? query}) async {
+    var url = Uri.parse('$baseUrl/events');
+    try {
+      final token = await AuthService().getToken();
+
+      final res = await http.get(
+        Uri.parse('$baseUrl/events/admin?keyword=$query'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (res.statusCode == 200) {
+        List<EventModel> datas = List<EventModel>.from(
+          jsonDecode(res.body)['data'].map(
+            (data) => EventModel.fromJson(data),
+          ),
+        ).toList();
+        if (query != null) {
+          results = results
+              .where((element) =>
+                  element.title!.toLowerCase().contains((query.toLowerCase())))
+              .toList();
+        }
+        return datas;
+      } else {
+        print("fetch error");
+      }
+    } on Exception catch (e) {
+      print('error: $e');
+    }
+    return results;
   }
 }

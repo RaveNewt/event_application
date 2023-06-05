@@ -6,7 +6,7 @@ class CustomeDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      thickness: 1,
+      thickness: 3,
       color: Color(0xffECEDEF),
     );
   }

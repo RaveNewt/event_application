@@ -27,6 +27,31 @@ class EventCreate extends EventEvent {
   List<Object> get props => [data];
 }
 
+class SearchEventName extends EventEvent {
+  final String title;
+  const SearchEventName(this.title);
+  @override
+  // TODO: implement props
+  List<Object> get props => [title];
+}
+
+class EventAdminName extends EventEvent {
+  final String user;
+  const EventAdminName(this.user);
+  @override
+  // TODO: implement props
+  List<Object> get props => [user];
+}
+
+class EventUpdate extends EventEvent {
+  final String eventId;
+  final EventForm data;
+  const EventUpdate(this.eventId, this.data);
+  @override
+  // TODO: implement props
+  List<Object> get props => [eventId, data];
+}
+
 
 // class AuthUpdateUser extends EventEvent {
 //   final UserModel user;

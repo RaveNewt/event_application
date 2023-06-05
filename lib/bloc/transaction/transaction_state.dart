@@ -26,3 +26,11 @@ class TransactionSuccess extends TransactionState {
   @override
   List<Object> get props => [data];
 }
+
+class BookingSuccess extends TransactionState {
+  final List<TransactionModel> data;
+  const BookingSuccess(this.data);
+
+  @override
+  List<Object> get props => [data];
+}

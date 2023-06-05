@@ -58,7 +58,7 @@ class EventForm {
       'stock': stock,
       'location': location,
       'date': date,
-      'category': category.toString(),
+      'category': category,
     };
   }
 }

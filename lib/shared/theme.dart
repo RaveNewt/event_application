@@ -6,7 +6,7 @@ double defaultMargin = 24.0;
 Color primaryColor = Color(0xff4063F3);
 Color dotsHover = const Color(0xffCDEDE2);
 Color bglight = const Color(0xfffcfeff);
-Color bgsecondary = Color.fromARGB(255, 86, 115, 234);
+Color bgsecondary = Color.fromARGB(255, 108, 134, 238);
 Color secondaryColor = Color(0xffE8906C);
 Color dangerColor = Color(0xffD12659);
 Color warningColor = Color(0xffD7D02C);
@@ -14,7 +14,7 @@ Color transparentColor = Colors.transparent;
 Color blackColor = Color(0xff252525);
 Color blackColor50 = Color(0x802B3347);
 Color blackColor30 = Color(0x4D2B3347);
-Color greyColor = Colors.grey;
+Color greyColor = blackColor.withOpacity(0.5);
 Color whiteColor = const Color(0xffFFFFFF);
 
 TextStyle primaryTextStyle = GoogleFonts.montserrat(

@@ -13,26 +13,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-class EventCreateAdmin extends StatefulWidget {
+class EventUpdateAdmin extends StatefulWidget {
+  final EventModel? eventadmin;
   final EventForm? event;
   final Category? categorymodel;
-  const EventCreateAdmin({this.event, this.categorymodel, super.key});
+  const EventUpdateAdmin(
+      {this.eventadmin, this.event, this.categorymodel, super.key});
 
   @override
-  State<EventCreateAdmin> createState() => _EventCreateAdminState();
+  State<EventUpdateAdmin> createState() => _EventUpdateAdminState();
 }
 
-class _EventCreateAdminState extends State<EventCreateAdmin> {
+class _EventUpdateAdminState extends State<EventUpdateAdmin> {
   String list1 = '645a7ad9a939d6ed0838438a';
-  String list2 = '645a5660559f72d4a40d8465';
+  String list2 = '645a7ad9a939d6ed0838438a';
 
-  final titleController = TextEditingController(text: '');
-  final aboutController = TextEditingController(text: '');
-  final locationController = TextEditingController(text: '');
-  final categoryController = TextEditingController(text: '');
-  final priceController = TextEditingController(text: '');
-  final timeController = TextEditingController(text: '');
-  final ticketController = TextEditingController(text: '');
+  TextEditingController titleController = TextEditingController(text: '');
+  TextEditingController aboutController = TextEditingController(text: '');
+  TextEditingController locationController = TextEditingController(text: '');
+  TextEditingController categoryController = TextEditingController(text: '');
+  TextEditingController priceController = TextEditingController(text: '');
+  TextEditingController timeController = TextEditingController(text: '');
+  TextEditingController ticketController = TextEditingController(text: '');
 
   TextEditingController dateInput = TextEditingController();
   void initState() {
@@ -96,7 +98,6 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
         );
       }
       return Scaffold(
-          drawer: DrawerCustom(),
           appBar: AppBarCostum(),
           body: ListView(children: [
             Container(
@@ -146,22 +147,21 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
                   title: 'Submit & Save',
                   onPressed: () {
                     context.read<EventBloc>().add(
-                          EventCreate(
-                            EventForm(
-                              title: titleController.text,
-                              about: aboutController.text,
-                              location: locationController.text,
-                              price: priceController.text,
-                              stock: ticketController.text,
-                              category: categoryController.text == 'Concert'
-                                  ? list1
-                                  : list2,
-                              date: dateInput.text,
-                              cover: 'data:image/png;base64,' +
-                                  base64Encode(File(selectedImage!.path)
-                                      .readAsBytesSync()),
-                            ),
-                          ),
+                          EventUpdate(
+                              widget.eventadmin!.id.toString(),
+                              EventForm(
+                                  about: aboutController.text,
+                                  title: titleController.text,
+                                  category: categoryController.text == 'Concert'
+                                      ? list1
+                                      : list2,
+                                  price: priceController.text,
+                                  stock: ticketController.text,
+                                  location: locationController.text,
+                                  date: dateInput.text,
+                                  cover: 'data:image/png;base64,' +
+                                      base64Encode(File(selectedImage!.path)
+                                          .readAsBytesSync()))),
                         );
                   },
                   width: 200,
@@ -185,7 +185,8 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
             color: greyColor,
           ),
           CustomFormField(
-            controller: titleController,
+            controller: titleController =
+                TextEditingController(text: widget.eventadmin!.title),
             title: 'Nama Event',
             hintText: 'Masukkan Nama Event',
             isShowIcon: false,
@@ -194,7 +195,8 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
             height: 24,
           ),
           DescriptionFormField(
-            controller: aboutController,
+            controller: aboutController =
+                TextEditingController(text: widget.eventadmin!.about),
             title: 'Deskripsi Event',
             hintText: 'Masukkan Deskripsi Event',
           ),
@@ -234,7 +236,8 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
             title: 'Lokasi Event',
             hintText: 'Masukkan Lokasi',
             isShowIcon: false,
-            controller: locationController,
+            controller: locationController =
+                TextEditingController(text: widget.eventadmin!.location),
           ),
           SizedBox(
             height: 24,
@@ -269,7 +272,8 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
             color: greyColor,
           ),
           FormCalendarPicker(
-            controller: dateInput,
+            controller: dateInput = TextEditingController(
+                text: ConvertDate(widget.eventadmin!.date.toString())),
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
                   context: context,
@@ -303,7 +307,8 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
             title: 'Harga Tiket',
             hintText: 'Masukkan Harga Tiket',
             isShowIcon: false,
-            controller: priceController,
+            controller: priceController = TextEditingController(
+                text: widget.eventadmin!.price.toString()),
           ),
         ],
       ),
@@ -324,7 +329,8 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
             title: 'Ticket',
             hintText: 'Masukkan Tiket',
             isShowIcon: false,
-            controller: ticketController,
+            controller: ticketController = TextEditingController(
+                text: widget.eventadmin!.stock.toString()),
           ),
         ],
       ),
@@ -360,19 +366,18 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
                 width: 300,
                 height: 120,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: greyColor,
-                  image: selectedImage == null
-                      ? null
-                      : DecorationImage(
-                          fit: BoxFit.cover,
-                          image: FileImage(
-                            File(
-                              selectedImage!.path,
+                    borderRadius: BorderRadius.circular(8),
+                    color: greyColor,
+                    image: selectedImage == null
+                        ? null
+                        : DecorationImage(
+                            fit: BoxFit.cover,
+                            image: FileImage(
+                              File(
+                                selectedImage!.path,
+                              ),
                             ),
-                          ),
-                        ),
-                ),
+                          )),
                 child: selectedImage != null
                     ? null
                     : Center(child: Icon(Icons.upload_file)),
@@ -452,51 +457,6 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
       ),
     );
   }
-
-  // Future ShowDialog() {
-  //   return showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           shape:
-  //               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-  //           title: Text('Please choose media to select'),
-  //           content: Container(
-  //             height: MediaQuery.of(context).size.height / 6,
-  //             child: Column(
-  //               children: [
-  //                 ElevatedButton(
-  //                   //if user click this button, user can upload image from gallery
-  //                   onPressed: () {
-  //                     Navigator.pop(context);
-  //                     selectImage(ImageSource.gallery);
-  //                   },
-  //                   child: Row(
-  //                     children: [
-  //                       Icon(Icons.image),
-  //                       Text('From Gallery'),
-  //                     ],
-  //                   ),
-  //                 ),
-  //                 ElevatedButton(
-  //                   //if user click this button. user can upload image from camera
-  //                   onPressed: () {
-  //                     Navigator.pop(context);
-  //                     getImage(ImageSource.camera);
-  //                   },
-  //                   child: Row(
-  //                     children: [
-  //                       Icon(Icons.camera),
-  //                       Text('From Camera'),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
 
   PreferredSizeWidget AppBarCostum() {
     return AppBar(

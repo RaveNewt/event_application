@@ -7,6 +7,11 @@ abstract class EventState extends Equatable {
   List<Object> get props => [];
 }
 
+class SearchUninitialized extends EventState {
+  @override
+  List<Object> get props => [];
+}
+
 class EventInitial extends EventState {}
 
 class EventLoadingState extends EventState {}
@@ -43,4 +48,12 @@ class CategorySuccess extends EventState {
 
   @override
   List<Object> get props => [categories];
+}
+
+class SearchSuccess extends EventState {
+  final List<EventData> events;
+  const SearchSuccess(this.events);
+
+  @override
+  List<Object> get props => [events];
 }

@@ -18,7 +18,7 @@ class EventWebinar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Concert',
+              'Webinar',
               style: primaryTextStyle.copyWith(
                 fontSize: 20,
                 fontWeight: semiBold,

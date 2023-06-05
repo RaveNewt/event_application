@@ -1,4 +1,5 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
+import 'package:event_application/models/user_model.dart';
 import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/button.dart';
@@ -8,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  final UserModel? user;
+  const ProfilePage({this.user, super.key});
 
   @override
   Widget build(BuildContext context) {

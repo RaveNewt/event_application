@@ -22,6 +22,19 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           emit(AuthFailed(e.toString()));
         }
       }
+      if (event is GetBookingTicketNumber) {
+        try {
+          emit(TransactionLoading());
+
+          final res =
+              await TransactionService().getBookingTicketUser(event.tiket);
+
+          emit(BookingSuccess(res));
+        } catch (e) {
+          print(e.toString());
+          emit(AuthFailed(e.toString()));
+        }
+      }
     });
   }
 }

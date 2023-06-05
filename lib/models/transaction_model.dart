@@ -4,6 +4,9 @@ class TransactionModel {
   String? email;
   String? payment;
   String? title;
+  String? ticketNumber;
+  String? date;
+  String? location;
   int? price;
 
   TransactionModel({
@@ -13,15 +16,21 @@ class TransactionModel {
     this.title,
     this.price,
     this.payment,
+    this.ticketNumber,
+    this.date,
+    this.location,
   });
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
-    id = json['data']['_id'];
-    username = json['data']['personalDetail']['username'];
-    email = json['data']['personalDetail']['email'];
-    title = json['data']['historyEvent']['title'];
-    price = json['data']['historyEvent']['price'];
-    payment = json['data']['payment'];
+    id = json['_id'];
+    username = json['personalDetail']['username'];
+    email = json['personalDetail']['email'];
+    title = json['historyEvent']['title'];
+    ticketNumber = json['ticketNumber'];
+    price = json['historyEvent']['price'];
+    date = json['historyEvent']['date'];
+    location = json['historyEvent']['location'];
+    payment = json['payment'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

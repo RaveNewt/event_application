@@ -23,6 +23,14 @@ class TrasactionCheckout extends TransactionEvent {
   List<Object> get props => [data];
 }
 
+class GetBookingTicketNumber extends TransactionEvent {
+  final String tiket;
+  const GetBookingTicketNumber(this.tiket);
+  @override
+  // TODO: implement props
+  List<Object> get props => [tiket];
+}
+
 
 
 

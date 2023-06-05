@@ -1,8 +1,12 @@
+import 'package:event_application/bloc/auth/auth_bloc.dart';
+import 'package:event_application/bloc/event/event_bloc.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/pages/location.dart';
 import 'package:event_application/ui/pages/search_location.dart';
 import 'package:event_application/ui/widgets/button.dart';
+import 'package:event_application/ui/widgets/card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventAdmin extends StatefulWidget {
   const EventAdmin({super.key});
@@ -54,49 +58,38 @@ class _EventAdminState extends State<EventAdmin> {
         ),
         body: ListView(children: [
           Container(
-            child: Column(children: [
-              Container(
-                width: double.maxFinite,
-                height: 100,
-                color: greyColor,
-                child: Center(
-                  child: Text(
-                    'Home',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 20,
-                      fontWeight: semiBold,
-                    ),
-                  ),
+            width: double.maxFinite,
+            height: 100,
+            color: greyColor,
+            child: Center(
+              child: Text(
+                'Home',
+                style: blackTextStyle.copyWith(
+                  fontSize: 20,
+                  fontWeight: semiBold,
                 ),
               ),
-              SizedBox(
-                height: 24,
-              ),
-              CustomFilledButton(
-                title: '+ Buat Event',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/event-category');
-                },
-                width: 200,
-                color: secondaryColor,
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              CustomFilledButton(
-                title: '+ Lokasi',
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SnapshotPage(),
-                      ));
-                },
-                width: 200,
-                color: secondaryColor,
-              ),
-            ]),
+            ),
           ),
+          SizedBox(
+            height: 24,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 100),
+            child: CustomFilledButton(
+              title: '+ Buat Event',
+              onPressed: () {
+                Navigator.pushNamed(context, '/event-category');
+              },
+              width: 50,
+              color: secondaryColor,
+            ),
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          Container(
+              padding: EdgeInsets.symmetric(horizontal: 24), child: ListCard()),
         ]));
   }
 
@@ -179,5 +172,44 @@ class _EventAdminState extends State<EventAdmin> {
         ],
       ),
     );
+  }
+
+  Widget ListCard() {
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+      if (state is AuthSuccess) {
+        return BlocProvider(
+          create: (context) =>
+              EventBloc()..add((EventAdminName('646a5a5e4cb244f2192ec2de'))),
+          child: BlocBuilder<EventBloc, EventState>(builder: (context, state) {
+            if (state is EventSuccess) {
+              return Column(
+                children: [
+                  GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                      childAspectRatio: 0.7,
+                    ),
+                    itemCount: state.events.length,
+                    itemBuilder: (context, index) =>
+                        CostumCardAdmin(event: state.events[index]),
+                    padding: EdgeInsets.zero,
+                    physics: NeverScrollableScrollPhysics(),
+                  ),
+                ],
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
+        );
+      }
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    });
   }
 }

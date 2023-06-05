@@ -2,8 +2,6 @@ import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/bloc/transaction/transaction_bloc.dart';
 import 'package:event_application/models/checkout_form.dart';
 import 'package:event_application/models/event_model.dart';
-import 'package:event_application/models/transaction_model.dart';
-import 'package:event_application/models/user_model.dart';
 import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/button.dart';

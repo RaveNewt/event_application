@@ -9,8 +9,9 @@ class EventModel {
   String? cover;
   String? date;
   int? stock;
-  Category? category;
-  Speaker? speaker;
+  String? category;
+  String? speaker;
+  String? user;
   String? createdAt;
   String? updatedAt;
 
@@ -22,6 +23,7 @@ class EventModel {
     this.cover,
     this.location,
     this.date,
+    this.user,
     this.category,
     this.speaker,
     this.createdAt,
@@ -39,7 +41,8 @@ class EventModel {
     location = json['location'];
     date = json['date'];
     stock = json['stock'];
-    category = Category.fromJson(json['category']);
+    user = json['user'];
+    category = json['category']['name'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -49,10 +52,11 @@ class EventModel {
     data['price'] = price;
     data['cover'] = cover;
     data['about'] = about;
+    data['user'] = user;
     data['location'] = location;
     data['date'] = date;
     data['stock'] = stock;
-    data['category'] = category!.toJson();
+    data['category'] = category;
     return data;
   }
 }
@@ -100,6 +104,63 @@ class Speaker {
     data['name'] = name;
     data['avatar'] = avatar;
     data['role'] = role;
+    return data;
+  }
+}
+
+class EventData {
+  String? id;
+  String? title;
+  int? price;
+  String? about;
+  String? location;
+  String? cover;
+  String? date;
+  int? stock;
+  String? category;
+  String? speaker;
+  String? createdAt;
+  String? updatedAt;
+
+  EventData({
+    this.id,
+    this.title,
+    this.price,
+    this.about,
+    this.cover,
+    this.location,
+    this.date,
+    this.category,
+    this.speaker,
+    this.createdAt,
+    this.updatedAt,
+    this.stock,
+  });
+
+  EventData.fromJson(Map<String, dynamic> json) {
+    id = json['_id'];
+    title = json['title'];
+    price = json['price'];
+    about = json['about'];
+    cover = json['cover'];
+
+    location = json['location'];
+    date = json['date'];
+    stock = json['stock'];
+    category = json['category'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['price'] = price;
+    data['cover'] = cover;
+    data['about'] = about;
+    data['location'] = location;
+    data['date'] = date;
+    data['stock'] = stock;
+    data['category'] = category;
     return data;
   }
 }

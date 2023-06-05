@@ -132,6 +132,7 @@ class CustomSearchForm extends StatelessWidget {
   final TextEditingController? controller;
   final bool isShowTitle;
   final Function(String)? onFieldSubmitted;
+  final Function()? onTap;
 
   CustomSearchForm({
     Key? key,
@@ -142,6 +143,7 @@ class CustomSearchForm extends StatelessWidget {
     this.controller,
     this.isShowTitle = true,
     this.onFieldSubmitted,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -150,6 +152,7 @@ class CustomSearchForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+          onTap: onTap,
           controller: controller,
           decoration: InputDecoration(
             hintText: hintText,
@@ -240,10 +243,12 @@ class CategoryForm extends StatefulWidget {
   //final Category category;
   List<String> list = <String>['Webinar'];
   String controller = '';
+  Function(String?)? onChanged;
   CategoryForm(
       {required this.list,
       this.controller = '',
       //required this.category,
+      this.onChanged,
       super.key});
 
   @override
@@ -264,13 +269,7 @@ class _CategoryFormState extends State<CategoryForm> {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      onChanged: (value) {
-        // This is called when the user selects an item.
-        setState(() {
-          value = value!;
-          widget.controller = value.toString();
-        });
-      },
+      onChanged: widget.onChanged,
       items: list.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
