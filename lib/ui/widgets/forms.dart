@@ -60,20 +60,6 @@ class CustomFormField extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: hintText,
                   prefixIcon: icon,
-
-                  // suffixIcon: (isPassword)
-                  //     ? IconButton(
-                  //         onPressed: () {
-                  //           setState(){
-                  //             obscureText = !obscureText;
-                  //           }
-                  //         },
-                  //         icon: Icon(
-                  //           obscureText ? Icons.visibility : Icons.visibility_off,
-                  //         ),
-                  //         color: primaryColor,
-                  //       )
-                  //     : null,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide(
@@ -94,19 +80,6 @@ class CustomFormField extends StatelessWidget {
                 controller: controller,
                 decoration: InputDecoration(
                   hintText: hintText,
-                  // suffixIcon: (isPassword)
-                  //     ? IconButton(
-                  //         onPressed: () {
-                  //           setState(){
-                  //             obscureText = !obscureText;
-                  //           }
-                  //         },
-                  //         icon: Icon(
-                  //           obscureText ? Icons.visibility : Icons.visibility_off,
-                  //         ),
-                  //         color: primaryColor,
-                  //       )
-                  //     : null,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide(

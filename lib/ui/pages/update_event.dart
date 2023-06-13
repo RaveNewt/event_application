@@ -108,7 +108,7 @@ class _EventUpdateAdminState extends State<EventUpdateAdmin> {
                   color: greyColor,
                   child: Center(
                     child: Text(
-                      'Buat Event',
+                      'Update Info Event',
                       style: blackTextStyle.copyWith(
                         fontSize: 20,
                         fontWeight: semiBold,

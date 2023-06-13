@@ -174,7 +174,7 @@ class HomePage extends StatelessWidget {
                 ),
                 itemCount: state.events.length,
                 itemBuilder: (context, index) =>
-                    CostumCard(event: state.events[index]),
+                    CostumCard(event: state.events.reversed.toList()[index]),
                 padding: EdgeInsets.zero,
                 physics: NeverScrollableScrollPhysics(),
               ),
