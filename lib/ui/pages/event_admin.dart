@@ -193,8 +193,8 @@ class _EventAdminState extends State<EventAdmin> {
                       childAspectRatio: 0.7,
                     ),
                     itemCount: state.events.length,
-                    itemBuilder: (context, index) =>
-                        CostumCardAdmin(event: state.events[index]),
+                    itemBuilder: (context, index) => CostumCardAdmin(
+                        event: state.events.reversed.toList()[index]),
                     padding: EdgeInsets.zero,
                     physics: NeverScrollableScrollPhysics(),
                   ),
