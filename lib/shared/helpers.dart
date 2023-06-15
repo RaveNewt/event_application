@@ -9,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 String ImageURl() {
-  return "http://localhost:3000/uploads/";
+  //return "http://localhost:3000/uploads/";
+  return "http://10.0.2.2:3000/uploads/";
 }
 
 void showCustomSnackbar(BuildContext context, String message) {

@@ -7,7 +7,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  final String baseUrl = 'http://localhost:3000/api/v1';
+  //final String baseUrl = 'http://localhost:3000/api/v1';
+  final String baseUrl = 'http://10.0.2.2:3000/api/v1';
 
   Future<UserModel> register(RegisterFormModel data) async {
     try {

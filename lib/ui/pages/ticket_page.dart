@@ -46,7 +46,7 @@ class TicketPage extends StatelessWidget {
                         crossAxisCount: 1,
                         mainAxisSpacing: 24,
                         crossAxisSpacing: 8,
-                        childAspectRatio: 2,
+                        childAspectRatio: 1.8,
                       ),
                       itemCount: state.data.length,
                       itemBuilder: (context, index) =>

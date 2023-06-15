@@ -32,6 +32,7 @@ class CostumCard extends StatelessWidget {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Container(
+            padding: EdgeInsets.only(bottom: 12),
             width: 400,
             height: 1000,
             decoration: BoxDecoration(
@@ -57,7 +58,7 @@ class CostumCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       image: DecorationImage(
                         image: event.cover == null
-                            ? AssetImage('assets/images/cover.png')
+                            ? AssetImage('assets/images/event_image.png')
                             : NetworkImage(ImageURl() + event.cover!)
                                 as ImageProvider,
                         fit: BoxFit.cover,
