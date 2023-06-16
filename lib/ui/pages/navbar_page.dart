@@ -1,10 +1,10 @@
 import 'package:event_application/bloc/navigation/navbar_items.dart';
 import 'package:event_application/bloc/navigation/navigation_cubit.dart';
 import 'package:event_application/shared/theme.dart';
-import 'package:event_application/ui/pages/home_page.dart';
-import 'package:event_application/ui/pages/profile_Page.dart';
-import 'package:event_application/ui/pages/search_page.dart';
-import 'package:event_application/ui/pages/ticket_page.dart';
+import 'package:event_application/ui/pages/main/home_page.dart';
+import 'package:event_application/ui/pages/main/profile_Page.dart';
+import 'package:event_application/ui/pages/main/search_page.dart';
+import 'package:event_application/ui/pages/main/ticket_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

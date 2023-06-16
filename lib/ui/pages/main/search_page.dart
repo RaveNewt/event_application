@@ -1,5 +1,4 @@
 import 'package:event_application/bloc/event/event_bloc.dart';
-import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/widgets/card.dart';
 import 'package:event_application/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';

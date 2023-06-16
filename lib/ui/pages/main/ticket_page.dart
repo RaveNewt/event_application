@@ -1,9 +1,7 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/bloc/transaction/transaction_bloc.dart';
 import 'package:event_application/shared/theme.dart';
-import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/card.dart';
-import 'package:event_application/ui/widgets/divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
