@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:event_application/bloc/event/event_bloc.dart';
 import 'package:event_application/shared/theme.dart';
-import 'package:event_application/ui/pages/event_admin.dart';
+import 'package:event_application/ui/pages/admin/event_admin.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';
