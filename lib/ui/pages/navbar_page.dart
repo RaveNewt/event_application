@@ -25,7 +25,6 @@ class _NavbarBottomState extends State<NavbarBottom> {
           color: whiteColor,
           shape: const CircularNotchedRectangle(),
           clipBehavior: Clip.antiAlias,
-          notchMargin: 8,
           elevation: 0,
           child: BottomNavigationBar(
             currentIndex: state.index,

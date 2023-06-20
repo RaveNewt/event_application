@@ -145,7 +145,9 @@ class _EventAdminState extends State<EventAdmin> {
                 fontWeight: semiBold,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/event-admin');
+            },
           ),
           ListTile(
             title: Text(

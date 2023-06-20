@@ -3,6 +3,7 @@ import 'package:event_application/models/transaction_model.dart';
 import 'package:event_application/shared/helpers.dart';
 import 'package:event_application/shared/theme.dart';
 import 'package:event_application/ui/pages/booking_ticket_detail.dart';
+import 'package:event_application/ui/pages/event_admin_detail.dart';
 import 'package:event_application/ui/pages/event_detail.dart';
 import 'package:event_application/ui/pages/update_event.dart';
 import 'package:event_application/ui/widgets/button.dart';
@@ -125,7 +126,7 @@ class CostumCardAdmin extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EventUpdateAdmin(
+            builder: (context) => EventDetaiAdmin(
               eventadmin: event,
             ),
           ),
