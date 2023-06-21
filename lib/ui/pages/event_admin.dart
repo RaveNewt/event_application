@@ -181,7 +181,7 @@ class _EventAdminState extends State<EventAdmin> {
       if (state is AuthSuccess) {
         return BlocProvider(
           create: (context) =>
-              EventBloc()..add((EventAdminName('646a5a5e4cb244f2192ec2de'))),
+              EventBloc()..add((EventAdminName(state.data.id.toString()))),
           child: BlocBuilder<EventBloc, EventState>(builder: (context, state) {
             if (state is EventSuccess) {
               return Column(

@@ -98,77 +98,80 @@ class _EventCreateAdminState extends State<EventCreateAdmin> {
       return Scaffold(
           drawer: DrawerCustom(),
           appBar: AppBarCostum(),
-          body: ListView(children: [
-            Container(
-              child: Column(children: [
+          body: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: [
                 Container(
-                  width: double.maxFinite,
-                  height: 100,
-                  color: greyColor,
-                  child: Center(
-                    child: Text(
-                      'Buat Event',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 20,
-                        fontWeight: semiBold,
+                  child: Column(children: [
+                    Container(
+                      width: double.maxFinite,
+                      height: 100,
+                      color: greyColor,
+                      child: Center(
+                        child: Text(
+                          'Buat Event',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 20,
+                            fontWeight: semiBold,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    InformasiEvent(),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    UploadImage(),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    LokasiEvent(),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    EventDate(),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Price(),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Stock(),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    CustomFilledButton(
+                      title: 'Submit & Save',
+                      onPressed: () {
+                        context.read<EventBloc>().add(
+                              EventCreate(
+                                EventForm(
+                                  title: titleController.text,
+                                  about: aboutController.text,
+                                  location: locationController.text,
+                                  price: priceController.text,
+                                  stock: ticketController.text,
+                                  category: categoryController.text == 'Concert'
+                                      ? list1
+                                      : list2,
+                                  date: dateInput.text,
+                                  cover: 'data:image/png;base64,' +
+                                      base64Encode(File(selectedImage!.path)
+                                          .readAsBytesSync()),
+                                ),
+                              ),
+                            );
+                      },
+                      width: 200,
+                    ),
+                  ]),
                 ),
-                SizedBox(
-                  height: 24,
-                ),
-                InformasiEvent(),
-                SizedBox(
-                  height: 32,
-                ),
-                UploadImage(),
-                SizedBox(
-                  height: 32,
-                ),
-                LokasiEvent(),
-                SizedBox(
-                  height: 32,
-                ),
-                EventDate(),
-                SizedBox(
-                  height: 32,
-                ),
-                Price(),
-                SizedBox(
-                  height: 32,
-                ),
-                Stock(),
-                SizedBox(
-                  height: 32,
-                ),
-                CustomFilledButton(
-                  title: 'Submit & Save',
-                  onPressed: () {
-                    context.read<EventBloc>().add(
-                          EventCreate(
-                            EventForm(
-                              title: titleController.text,
-                              about: aboutController.text,
-                              location: locationController.text,
-                              price: priceController.text,
-                              stock: ticketController.text,
-                              category: categoryController.text == 'Concert'
-                                  ? list1
-                                  : list2,
-                              date: dateInput.text,
-                              cover: 'data:image/png;base64,' +
-                                  base64Encode(File(selectedImage!.path)
-                                      .readAsBytesSync()),
-                            ),
-                          ),
-                        );
-                  },
-                  width: 200,
-                ),
-              ]),
-            ),
-          ]));
+              ]));
     });
     ;
   }

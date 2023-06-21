@@ -216,6 +216,33 @@ class EventService {
     }
   }
 
+  Future<String> deleteEvent(String eventid) async {
+    try {
+      final token = await AuthService().getToken();
+
+      final res = await http.delete(
+        Uri.parse('$baseUrl/events/$eventid'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      print(token);
+      print(res.statusCode);
+      print(res.body);
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        print('success');
+        final user = jsonDecode(res.body);
+        print(user);
+        print(res.body);
+        return user;
+      }
+      throw jsonDecode(res.body)['message'];
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
   Future<List<Category>> getAllCategory() async {
     try {
       final token = await AuthService().getToken();

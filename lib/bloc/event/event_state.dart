@@ -16,6 +16,8 @@ class EventInitial extends EventState {}
 
 class EventLoadingState extends EventState {}
 
+class EventSuccessDelete extends EventState {}
+
 class EventFailed extends EventState {
   final String e;
   const EventFailed(this.e);

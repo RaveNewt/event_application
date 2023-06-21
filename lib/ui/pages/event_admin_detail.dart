@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:ui';
 
+import 'package:event_application/bloc/event/event_bloc.dart';
 import 'package:event_application/models/event_form_model.dart';
 import 'package:event_application/models/event_model.dart';
 import 'package:event_application/models/user_model.dart';
@@ -12,6 +13,7 @@ import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/textmore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';
 
 class EventDetaiAdmin extends StatefulWidget {
@@ -55,7 +57,7 @@ class _EventDetaiAdminState extends State<EventDetaiAdmin> {
               ),
             ),
           ]),
-      bottomNavigationBar: BottomAppBarCostum(),
+      bottomNavigationBar: BottomAppBarCostum(context),
       body: SingleChildScrollView(
         dragStartBehavior: DragStartBehavior.start,
         padding: EdgeInsets.zero,
@@ -219,61 +221,99 @@ class _EventDetaiAdminState extends State<EventDetaiAdmin> {
     );
   }
 
-  Widget BottomAppBarCostum() {
-    return BottomAppBar(
-      child: Container(
-        width: double.maxFinite,
-        height: 100,
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(30),
+  Widget BottomAppBarCostum(BuildContext context) {
+    return BlocConsumer<EventBloc, EventState>(listener: (context, state) {
+      if (state is EventSuccessAdmin) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/event-admin', (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/event-admin', (route) => false);
+      }
+    }, builder: (context, state) {
+      if (state is EventLoadingState) {
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.eventadmin!.title!,
-                  style: blackTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: bold,
-                  ),
-                ),
-                Text(
-                  formatCurrency(widget.eventadmin!.price!),
-                  style: primaryTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: bold,
-                  ),
-                ),
-              ],
+        );
+      }
+      return BottomAppBar(
+        child: Container(
+          width: double.maxFinite,
+          height: 100,
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(30),
             ),
-            CustomFilledButton(
-              title: 'Edit Event',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EventUpdateAdmin(
-                      eventadmin: widget.eventadmin,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.eventadmin!.title!,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: bold,
                     ),
                   ),
-                );
-              },
-              width: 100,
-              height: 80,
-              fontSize: 12,
-            ),
-          ],
+                  Text(
+                    formatCurrency(widget.eventadmin!.price!),
+                    style: primaryTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  CustomFilledButton(
+                    title: 'Delete Event',
+                    color: dangerColor,
+                    onPressed: () {
+                      context
+                          .read<EventBloc>()
+                          .add(EventDelete(widget.eventadmin!.id!.toString()));
+                    },
+                    width: 100,
+                    height: 80,
+                    fontSize: 12,
+                  ),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Builder(builder: (context) {
+                    return CustomFilledButton(
+                      title: 'Edit Event',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EventUpdateAdmin(
+                              eventadmin: widget.eventadmin,
+                            ),
+                          ),
+                        );
+                      },
+                      width: 100,
+                      height: 80,
+                      fontSize: 12,
+                    );
+                  }),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget Time() {

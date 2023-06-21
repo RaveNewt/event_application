@@ -93,6 +93,17 @@ class EventBloc extends Bloc<EventEvent, EventState> {
           emit(EventFailed(e.toString()));
         }
       }
+      if (event is EventDelete) {
+        try {
+          emit(EventLoadingState());
+
+          await EventService().deleteEvent(event.eventId);
+
+          emit(EventSuccessDelete());
+        } catch (e) {
+          emit(EventFailed(e.toString()));
+        }
+      }
     });
   }
 }
