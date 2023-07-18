@@ -51,7 +51,6 @@ dependencies:
   flutter_dotenv: ^5.0.2
   another_flushbar: ^1.12.30
   form_field_validator: ^1.1.0
-  google_maps_flutter: ^2.2.8
   geolocator: ^9.0.2
   geocoding: ^2.1.0
   flutter_typeahead: ^4.4.0
