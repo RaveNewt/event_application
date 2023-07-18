@@ -1,8 +1,6 @@
 import 'package:event_application/bloc/auth/auth_bloc.dart';
 import 'package:event_application/bloc/event/event_bloc.dart';
 import 'package:event_application/shared/theme.dart';
-import 'package:event_application/ui/pages/location.dart';
-import 'package:event_application/ui/pages/search_location.dart';
 import 'package:event_application/ui/widgets/button.dart';
 import 'package:event_application/ui/widgets/card.dart';
 import 'package:flutter/material.dart';
