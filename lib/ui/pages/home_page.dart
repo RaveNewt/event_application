@@ -170,7 +170,7 @@ class HomePage extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
-                  childAspectRatio: 0.7,
+                  childAspectRatio: 0.6,
                 ),
                 itemCount: state.events.length,
                 itemBuilder: (context, index) =>
